@@ -15,12 +15,12 @@ public class CampaignController {
     @Autowired
     CampaignService service;
 
-    @GetMapping(value="campaigns", produces= MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value="campaign", produces= MediaType.APPLICATION_JSON_VALUE)
     public List<Campaign> getAllCampaigns(){
         return service.getAllCampaigns();
     }
 
-    @PostMapping(value="campaigns", consumes=MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value="campaign", consumes=MediaType.APPLICATION_JSON_VALUE)
     public void createCampaign(@RequestBody Campaign campaign){
         service.createCampaign(campaign);
     }
