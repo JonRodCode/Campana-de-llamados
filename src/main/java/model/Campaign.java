@@ -23,31 +23,6 @@ public class Campaign {
 
     public Campaign() {
     }
-    //Constructor para mapear una campaña existente
-    public Campaign(String name,
-                    String description,
-                    Date startDate,
-                    Date endDate ) {
-        this.name = name;
-        this.description = description;
-        this.startDate = startDate;
-        this.endDate = endDate;
-        this.status = StatusCampaign.WAITING;
-    }
-
-
-    //Constructor de nueva campaña, aca estará la validacion de fecha
-    public Campaign(String name,
-                    String description,
-                    Date startDate,
-                    Date endDate,
-                    StatusCampaign status) {
-        this.name = name;
-        this.description = description;
-        this.startDate = startDate;
-        this.endDate = endDate;
-        this.status = status;
-    }
 
     public int getId() {
         return this.id;

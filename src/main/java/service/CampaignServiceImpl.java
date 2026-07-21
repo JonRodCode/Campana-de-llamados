@@ -1,6 +1,7 @@
 package service;
 
 import dao.CampaignDao;
+import enums.StatusCampaign;
 import model.Campaign;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,7 +16,8 @@ public class CampaignServiceImpl implements CampaignService {
 
     @Override
     public void createCampaign(Campaign campaign){
-        if(isValidNameOfCampaign(campaign.getName())){
+        if(isValidCreateCampaign(campaign)){
+            campaign.setStatus(StatusCampaign.WAITING);
             dao.createCampaign(campaign);
         }
     }
@@ -24,12 +26,37 @@ public class CampaignServiceImpl implements CampaignService {
     @Override
     public Campaign getCampaign(int id){ return dao.getCampaign(id); }
     @Override
-    public void updateCampaign(Campaign campaign){ dao.updateCampaign(campaign); }
+    public void updateCampaign(Campaign campaign){
+        if (isValidUpdateCampaign(campaign)){
+            dao.updateCampaign(campaign);
+        }
+    }
     @Override
     public void deleteCampaign(int id){ dao.deleteCampaign(id);   }
 
-    private boolean isValidNameOfCampaign(String name){
-        return dao.getCampaign(name) == null;
+    private boolean isValidUpdateCampaign(Campaign campaign) {
+        return isValidCreateCampaign(campaign) && !isStatusFINISHED(campaign.getId());
+    }
+
+    private boolean isValidCreateCampaign(Campaign campaign){
+        return isUniqueTheNameOfCampaign(campaign) && isStartDateBeforeEndDate(campaign);
+    }
+
+    private boolean isUniqueTheNameOfCampaign(Campaign campaign){
+        Campaign existentCampaign = dao.getCampaign(campaign.getName());
+        if (existentCampaign == null){
+            return true;
+        }
+        return existentCampaign.getId() == campaign.getId();
+    }
+
+    private boolean isStartDateBeforeEndDate(Campaign campaign){
+        return campaign.getStartDate().before(campaign.getEndDate());
+    }
+
+    private boolean isStatusFINISHED(int id){
+        Campaign oldCampaign = dao.getCampaign(id);
+        return oldCampaign.getStatus() == StatusCampaign.FINISHED;
     }
 }
 
