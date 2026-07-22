@@ -14,8 +14,8 @@ public class CampaignDaoImpl implements CampaignDao {
     CampaignJpaSpring campaignRepository;
 
     @Override
-    public void createCampaign(Campaign campaign){
-        campaignRepository.save(campaign);
+    public Campaign createCampaign(Campaign campaign){
+        return campaignRepository.save(campaign);
     }
     @Override
     public List<Campaign> getAllCampaigns(){
@@ -26,7 +26,7 @@ public class CampaignDaoImpl implements CampaignDao {
     @Override
     public Campaign getCampaign(int id) { return campaignRepository.findById(id).orElse(null); }
     @Override
-    public void updateCampaign(Campaign campaign) { campaignRepository.save(campaign); }
+    public Campaign updateCampaign(Campaign campaign) { return campaignRepository.save(campaign); }
 
     @Override
     public void deleteCampaign(int id) { campaignRepository.deleteById(id);  }

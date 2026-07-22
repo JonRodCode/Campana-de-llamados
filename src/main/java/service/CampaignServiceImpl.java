@@ -15,21 +15,23 @@ public class CampaignServiceImpl implements CampaignService {
     CampaignDao dao;
 
     @Override
-    public void createCampaign(Campaign campaign){
+    public Campaign createCampaign(Campaign campaign){
         if(isValidCreateCampaign(campaign)){
             campaign.setStatus(StatusCampaign.WAITING);
-            dao.createCampaign(campaign);
+            return dao.createCampaign(campaign);
         }
+        else throw new RuntimeException("Datos de campaña no válidos.");
     }
     @Override
     public List<Campaign> getAllCampaigns(){return dao.getAllCampaigns(); }
     @Override
     public Campaign getCampaign(int id){ return dao.getCampaign(id); }
     @Override
-    public void updateCampaign(Campaign campaign){
+    public Campaign updateCampaign(Campaign campaign){
         if (isValidUpdateCampaign(campaign)){
-            dao.updateCampaign(campaign);
+            return dao.updateCampaign(campaign);
         }
+        else throw new RuntimeException("Datos de campaña no válidos.");
     }
     @Override
     public void deleteCampaign(int id){ dao.deleteCampaign(id);   }

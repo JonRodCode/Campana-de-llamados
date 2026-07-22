@@ -5,9 +5,9 @@ import java.util.List;
 
 public interface CampaignService {
 
-    void createCampaign(Campaign campaign);
+    Campaign createCampaign(Campaign campaign);
     List<Campaign> getAllCampaigns();
     Campaign getCampaign(int id);
-    void updateCampaign(Campaign campaign);
+    Campaign updateCampaign(Campaign campaign);
     void deleteCampaign(int id);
 }
