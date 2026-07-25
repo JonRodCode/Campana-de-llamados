@@ -10,4 +10,5 @@ public interface CampaignService {
     Campaign getCampaign(int id);
     Campaign updateCampaign(Campaign campaign);
     void deleteCampaign(int id);
+    void updateCampaignsStatuses();
 }

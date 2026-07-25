@@ -6,6 +6,7 @@ import model.Campaign;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -35,6 +36,21 @@ public class CampaignServiceImpl implements CampaignService {
     }
     @Override
     public void deleteCampaign(int id){ dao.deleteCampaign(id);   }
+
+    @Override
+    public void updateCampaignsStatuses(){
+        Date now = new Date();
+
+        for (Campaign campaign : dao.getCampaignsToFinish(now)){
+            campaign.setStatus(StatusCampaign.FINISHED);
+            dao.updateCampaign(campaign);
+        }
+
+        for (Campaign campaign : dao.getCampaignsToActivate(now)){
+            campaign.setStatus(StatusCampaign.ACTIVE);
+            dao.updateCampaign(campaign);
+        }
+    }
 
     private boolean isValidUpdateCampaign(Campaign campaign) {
         return isValidCreateCampaign(campaign) && !isStatusFINISHED(campaign.getId());
