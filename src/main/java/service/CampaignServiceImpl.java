@@ -2,6 +2,7 @@ package service;
 
 import dao.CampaignDao;
 import enums.StatusCampaign;
+import messaging.CampaignEventPublisher;
 import model.Campaign;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,6 +15,9 @@ public class CampaignServiceImpl implements CampaignService {
 
     @Autowired
     CampaignDao dao;
+
+    @Autowired
+    CampaignEventPublisher eventPublisher;
 
     @Override
     public Campaign createCampaign(Campaign campaign){
@@ -44,11 +48,13 @@ public class CampaignServiceImpl implements CampaignService {
         for (Campaign campaign : dao.getCampaignsToFinish(now)){
             campaign.setStatus(StatusCampaign.FINISHED);
             dao.updateCampaign(campaign);
+            eventPublisher.publishCampaignStatusChanged(campaign);
         }
 
         for (Campaign campaign : dao.getCampaignsToActivate(now)){
             campaign.setStatus(StatusCampaign.ACTIVE);
             dao.updateCampaign(campaign);
+            eventPublisher.publishCampaignStatusChanged(campaign);
         }
     }
 
